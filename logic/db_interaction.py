@@ -3,8 +3,8 @@ import datetime as dtm
 from datetime import date
 
 class db():
-    def __init__(self, db_name = "NOTES"):
-        self.table_name = db_name
+    def __init__(self):
+        self.table_name = "NOTES"
         self.connect = sql.connect("data.db")
         self.date = date.today()
         # self.time = dtm.datetime.now()
@@ -37,11 +37,11 @@ class db():
         print("added succesfully")
                 
 
-    def del_note_by_id(self, nid):
+    def del_note_by_id(self, id):
         cur = self.cursor
         delete_query = f"DELETE FROM {self.table_name} WHERE ROWID = ?"
         
-        cur.execute(delete_query, (nid,))
+        cur.execute(delete_query, (id,))
         self.connect.commit()
         print("deleted succesfully")
 
@@ -50,6 +50,7 @@ class db():
         cur = self.cursor
         cur.execute(f"SELECT * FROM {self.table_name}")
         rows = cur.fetchall()
+        self.connect.commit()
 
         return rows
 
